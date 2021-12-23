@@ -477,7 +477,7 @@ namespace StarterAssets
 				{
 					_animator.SetBool(_animIDStrafe, true);
 				}
-				else if (_input.move.y == 0 || _input.move.x != 0)
+				if (_input.move.y == 0 || _input.move.x != 0)
 				{
 					_animator.SetBool(_animIDStrafe, false);
 				}
