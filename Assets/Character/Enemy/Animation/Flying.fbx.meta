@@ -73,6 +73,34 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.021276595
+        functionName: TagHead
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.031914894
+        functionName: Head_Attack_On
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.9574469
+        functionName: Head_Attack_Off
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.9787234
+        functionName: UnTagHead
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

@@ -73,6 +73,48 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.13829787
+        functionName: TagCombo_Hand
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.15957446
+        functionName: Left_Hand_Attack_On
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.28723404
+        functionName: Right_Hand_Attack_On
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.39361703
+        functionName: Left_Hand_Attack_Off
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.4042553
+        functionName: Right_Hand_Attack_Off
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.46808508
+        functionName: UnTagCombo_Hand
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

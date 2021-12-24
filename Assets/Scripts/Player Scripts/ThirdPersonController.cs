@@ -73,7 +73,7 @@ namespace StarterAssets
 		////cinemachine
 		//private float _cinemachineTargetYaw;
 		//private float _cinemachineTargetPitch;
-
+		[SerializeField]private Transform _bigHand;
 		[SerializeField]private Transform _forLift;
 
 		[SerializeField]private Behaviour[] components;
@@ -241,6 +241,7 @@ namespace StarterAssets
 
 			if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E) || _input.attack) && !_input.sprint)
 			{
+				gameObject.layer = LayerMask.NameToLayer("Player");
 				current_Combo_State++;
 				activateTimerToReset = true;
 				current_Combo_Timer = default_Combo_Timer;
@@ -261,7 +262,7 @@ namespace StarterAssets
                             checkThrow = false;
 							
 						}
-						else if (hit.distance < 0.7 && !checkThrow && hit.collider.gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
+						else if (hit.distance < 0.6 && !checkThrow && hit.collider.gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
 						{
                             if ((hit.collider.gameObject.layer == LayerMask.NameToLayer("DownLayer") || hit.collider.gameObject.CompareTag("Stun")) && hit.collider.gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
 							{
@@ -286,7 +287,7 @@ namespace StarterAssets
 							}
 
 						}
-						else if (!Physics.Raycast(ray, 2f, 1 << 8) && !checkThrow)
+						else if (!Physics.Raycast(ray, 3f, 1 << 8) && !checkThrow)
 						{
 							_animator.SetTrigger(_animIDPunch1);
 
@@ -309,7 +310,7 @@ namespace StarterAssets
 					{
 						if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Ignore Raycast") && hit.collider.gameObject.layer != LayerMask.NameToLayer("DownLayer"))
 						{
-							if (hit.distance < 0.8 && hit.collider.gameObject.layer == LayerMask.NameToLayer("LayerToSuper") && (hit.collider.CompareTag("Stun") || hit.collider.CompareTag("Enemy")))
+							if (hit.distance < 0.7 && hit.collider.gameObject.layer == LayerMask.NameToLayer("LayerToSuper") && (hit.collider.CompareTag("Stun") || hit.collider.CompareTag("Enemy")))
 							{
 								
 								_animator.SetTrigger(_animIDPunch4);
@@ -358,8 +359,9 @@ namespace StarterAssets
 
 			if (_input.attack && Grounded && !_input.jump && _input.sprint)
 			{
+				gameObject.layer = LayerMask.NameToLayer("Player");
 
-				if (Physics.Raycast(ray, 3f, 1 << 8))
+				if (Physics.Raycast(ray, 5f, 1 << 8))
 				{
 					_animator.SetTrigger(_animIDKick1);
 				}
@@ -477,7 +479,7 @@ namespace StarterAssets
 				{
 					_animator.SetBool(_animIDStrafe, true);
 				}
-				if (_input.move.y == 0 || _input.move.x != 0)
+				 if (_input.move.y == 0 || _input.move.x != 0)
 				{
 					_animator.SetBool(_animIDStrafe, false);
 				}
@@ -613,6 +615,26 @@ namespace StarterAssets
 		{
 			foreach (var component in components)
 				component.enabled = true;
+		}
+
+		private void BigHand()
+        {
+			//_bigHand.transform.localScale += new Vector3(3, 3, 3);
+        }
+
+		private void NormalHand()
+        {
+			//_bigHand.transform.localScale -= new Vector3(3, 3, 3);
+		}
+
+		private void KnockON()
+        {
+			gameObject.layer = LayerMask.NameToLayer("DownLayer");
+		}
+
+		private void KnockOFF()
+        {
+			gameObject.layer = LayerMask.NameToLayer("Player");
 		}
 	}
 }

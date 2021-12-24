@@ -6,7 +6,7 @@ public class CharacterAnimationDelegate : MonoBehaviour
 {
     public GameObject left_Hand_Attack_Point, right_Hand_Attack_Point, left_Leg_Attack_Point, right_Leg_Attack_Point, head_Attack_Point, character;
 
-    private float stand_Up_Timer = 0.6f;
+    private float stand_Up_Timer = 1.5f;
 
     private CharacterAnimation animationScript;
 
@@ -186,6 +186,11 @@ public class CharacterAnimationDelegate : MonoBehaviour
         StartCoroutine(StandUpAfterTimer());
     }
 
+    void Toad_StandUp()
+    {
+        StartCoroutine(StandUpToad());
+    }
+
     IEnumerator StandUpAfterTimer()
     {
         yield return new WaitForSeconds(stand_Up_Timer);
@@ -195,6 +200,13 @@ public class CharacterAnimationDelegate : MonoBehaviour
 
         if (gameObject.transform.parent != null)
             animationScript.Lift();
+    }
+
+    IEnumerator StandUpToad()
+    {
+        yield return new WaitForSeconds(stand_Up_Timer - 1f);
+
+        animationScript.StandUp();
     }
 }
 

@@ -113,6 +113,34 @@ public class AttackUniversal : MonoBehaviour
                 {
                     hit[0].GetComponent<HealthScript>().ApplyDamage(0f, false);
                 }
+            }else if(is_Enemy)
+            {
+                if (gameObject.CompareTag(Tags.HEAD_TAG))
+                {
+                    hit[0].GetComponent<HealthScript>().ApplyDamage(_Head, true);
+                }
+                else
+                {
+                    hit[0].GetComponent<HealthScript>().ApplyDamage(0f, false);
+                }
+
+                if (gameObject.CompareTag(Tags.COMBO_HAND_TAG))
+                {
+                    hit[0].GetComponent<HealthScript>().ApplyDamage(_comboHand, false);
+                }
+                else
+                {
+                    hit[0].GetComponent<HealthScript>().ApplyDamage(0f, false);
+                }
+
+                if (gameObject.CompareTag(Tags.FINISH_HAND_TAG))
+                {
+                    hit[0].GetComponent<HealthScript>().ApplyDamage(_finishHand, true);
+                }
+                else
+                {
+                    hit[0].GetComponent<HealthScript>().ApplyDamage(0f, false);
+                }
             }
 
             gameObject.SetActive(false);

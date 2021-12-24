@@ -23,7 +23,26 @@ public class HealthScript : MonoBehaviour
 
         if(is_Player)
         {
-            return;
+            //if (gameObject.layer == LayerMask.NameToLayer("Death"))
+            //    return;
+
+            health -= damage;
+
+            //display health UI
+            if (health <= 0f)
+            {
+                //animationChar.Death();
+                return;
+
+            }
+            if (knockDown)
+            {
+                animationChar.KnockDown();
+            }
+            else
+            {
+                animationChar.Hit();
+            }
         }
         
         if(!is_Player)
