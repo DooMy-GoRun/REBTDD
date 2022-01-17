@@ -89,7 +89,11 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+<<<<<<< HEAD
     - _Exposure: 0.38777515
+=======
+    - _Exposure: 0.48997673
+>>>>>>> eb62858ab4bf15f43d19c4ddffdcec3d0d867303
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -101,7 +105,11 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+<<<<<<< HEAD
     - _Rotation: 121.06025
+=======
+    - _Rotation: 13.243983
+>>>>>>> eb62858ab4bf15f43d19c4ddffdcec3d0d867303
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
