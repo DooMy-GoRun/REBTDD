@@ -4,6 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+//public enum ComboState
+//{
+//    NONE,
+//    PUNCH_1,
+//    PUNCH_2,
+//    PUNCH_3
+//}
+
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private Behaviour[] components;
@@ -23,8 +31,7 @@ public class EnemyController : MonoBehaviour
     private float current_Attack_time;
     [SerializeField] private float default_Attack_time = 0.3f;
 
-    private bool _lowhp;   
-
+    private bool _lowhp;
 
     // Start is called before the first frame update
     void Start()
@@ -116,7 +123,7 @@ public class EnemyController : MonoBehaviour
         }
 
         //check to attack
-        if (speed < 0.000001)
+        if (speed < 0.000001 && !gameObject.CompareTag("Stun"))
         {
             Attacks();
         }
@@ -128,21 +135,27 @@ public class EnemyController : MonoBehaviour
         //Debug.DrawRay(transform.position, transform.forward * 3f, Color.yellow);
         RaycastHit hit;
 
-        animator.SetBool("BackMovement", false);
+        //animator.SetBool("BackMovement", false);
         current_Attack_time += Time.deltaTime;
 
         if (current_Attack_time > default_Attack_time)
         {
             if(Physics.Raycast(ray, out hit))
             {
-                if (hit.distance < 0.5)
-                    EnemyAttack(0);
+                if (hit.distance < 1.5 && hit.collider.gameObject.layer != LayerMask.NameToLayer("DownLayer"))
+                {
+                    var numberPunch = Random.Range(0, 3);
+                    EnemyAttack(numberPunch);
+                }
+                if (hit.distance > 2.5 && hit.distance < 4.5 && hit.collider.gameObject.layer != LayerMask.NameToLayer("DownLayer"))
+                {
+                    EnemyAttack(3);
+                }
 
-                if (hit.distance > 0.5 && hit.distance < 1.5)
-                    EnemyAttack(1);
-
-                if (hit.distance > 2.5)
-                    EnemyAttack(2);
+                if (hit.distance > 5.5 && hit.collider.gameObject.layer != LayerMask.NameToLayer("DownLayer"))
+                {
+                    EnemyAttack(4);
+                }
             }
         }
     }
@@ -156,15 +169,25 @@ public class EnemyController : MonoBehaviour
             animator.SetTrigger(AnimationTags.ATTACK_1_TRIGGER);
         }
 
-        if (attack == 1)
+        if(attack == 1)
+        {
+            animator.SetTrigger(AnimationTags.ATTACK_1_COMBO_TRIGGER);
+        }
+
+        if(attack == 2)
+        {
+            animator.SetTrigger(AnimationTags.ATTACK_1_FINISH_TRIGGER);
+        }
+
+        if (attack == 3)
         {
             //navMeshAgent.isStopped = true;
             animator.SetTrigger(AnimationTags.ATTACK_2_TRIGGER);
         }
 
-        if (attack == 2)
+        if (attack == 4)
         {
-            animator.SetBool("BackMovement", true);
+            //animator.SetBool("BackMovement", true);
             //navMeshAgent.isStopped = true;
             animator.SetTrigger(AnimationTags.ATTACK_3_TRIGGER);
         }
@@ -179,10 +202,12 @@ public class EnemyController : MonoBehaviour
         if(gameObject.transform.parent != null)
         {
             animator.SetBool("onLift", true);
+            gameObject.transform.position = player.position;   
         }
-        if (gameObject.transform.parent == null)
+        else
+        {
             animator.SetBool("onLift", false);
-            
+        }            
     }
 
     //for Animation Events
@@ -194,15 +219,14 @@ public class EnemyController : MonoBehaviour
 
         gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         
-        Destroy(gameObject, 7f);
-     
-        
+        Destroy(gameObject, 1.5f);
     }
 
     private void AgentStop()
     {
-        foreach (var component in components)
-            component.enabled = false;
+        if(!navMeshAgent.isStopped)
+            navMeshAgent.isStopped = true;
+
         if (gameObject.layer == LayerMask.NameToLayer("LayerToSuper"))
             _lowhp = true;
 
@@ -211,10 +235,10 @@ public class EnemyController : MonoBehaviour
 
     private void AgentResume()
     {
-        foreach (var component in components)
-            component.enabled = true;
+        if(navMeshAgent.isStopped)
+            navMeshAgent.isStopped = false;
 
-        if(_lowhp || gameObject.layer == LayerMask.NameToLayer("LayerToSuper"))
+        if (_lowhp || gameObject.layer == LayerMask.NameToLayer("LayerToSuper"))
             gameObject.layer = LayerMask.NameToLayer("LayerToSuper");
         else
             gameObject.layer = LayerMask.NameToLayer("Enemy");
@@ -226,6 +250,7 @@ public class EnemyController : MonoBehaviour
     {
         navMeshAgent.isStopped = true;
     }
+
     private void ResumeNav()
     {
         navMeshAgent.isStopped = false;

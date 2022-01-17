@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class TestSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyTemplate;
+    [SerializeField] private GameObject[] enemyTemplate;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private float spawnTimer = 7f;
     [SerializeField] private Transform spawnPosition;
@@ -37,7 +37,7 @@ public class TestSpawner : MonoBehaviour
 
     private void CreateNewEnemy()
     {
-        var newEnemy = Instantiate(enemyTemplate, spawnPosition.position, Quaternion.identity);
-        newEnemy.SetActive(true);
+            var newEnemy = Instantiate(enemyTemplate[Random.Range(0, 3)], spawnPosition.position, Quaternion.identity);
+            newEnemy.SetActive(true);
     }
 }

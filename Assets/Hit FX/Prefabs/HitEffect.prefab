@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 2
-  particle: {fileID: 115594}
 --- !u!1 &1404692241547466
 GameObject:
   m_ObjectHideFlags: 0
@@ -1433,8 +1432,8 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     speedRange: {x: 0, y: 1}
-    tilesX: 2
-    tilesY: 4
+    tilesX: 1
+    tilesY: 2
     animationType: 0
     rowIndex: 0
     cycles: 1
@@ -4731,7 +4730,6 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 33577f6fcbfcc1243aedfb01076eaf3e, type: 2}
   - {fileID: 2100000, guid: 33577f6fcbfcc1243aedfb01076eaf3e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0

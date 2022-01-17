@@ -5,7 +5,7 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Attack2
+    second: Attack1
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -35,7 +35,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Attack2
+      name: Attack1
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
@@ -73,15 +73,43 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.24468085
+      - time: 0.24770641
         functionName: Right_Hand_Attack_On
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.45744678
+      - time: 0.7706422
         functionName: Right_Hand_Attack_Off
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.26000002
+        functionName: Attack_Sound
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.77310926
+        functionName: Right_Hand_Attack_Off
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.21008404
+        functionName: TagZero_Hand
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.81512606
+        functionName: UnTagZero_Hand
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
         floatParameter: 0

@@ -51,7 +51,7 @@ ModelImporter:
       loopBlendOrientation: 1
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
+      keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
@@ -66,6 +66,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.1
+        functionName: TagCombo_Hand
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 1
         functionName: ResumeNav
         data: 
@@ -73,43 +80,50 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.13829787
-        functionName: TagCombo_Hand
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.15957446
+      - time: 0.17647058
         functionName: Left_Hand_Attack_On
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.28723404
+      - time: 0.2773109
         functionName: Right_Hand_Attack_On
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.39361703
-        functionName: Left_Hand_Attack_Off
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.4042553
+      - time: 0.45378152
         functionName: Right_Hand_Attack_Off
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.46808508
+      - time: 0.4789916
+        functionName: Left_Hand_Attack_Off
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5378151
         functionName: UnTagCombo_Hand
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.21008404
+        functionName: Attack_Sound
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.28571427
+        functionName: Attack_Sound
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
         floatParameter: 0

@@ -15,6 +15,10 @@ TagManager:
   - ComboHand
   - ThrowHand
   - Stun
+  - ZeroHand
+  - SuperBoot
+  - HealthUI
+  - Finish1Hand
   layers:
   - Default
   - TransparentFX

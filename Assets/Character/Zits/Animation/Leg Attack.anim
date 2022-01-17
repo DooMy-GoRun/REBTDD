@@ -27316,7 +27316,7 @@ AnimationClip:
     m_LoopBlendOrientation: 1
     m_LoopBlendPositionY: 1
     m_LoopBlendPositionXZ: 0
-    m_KeepOriginalOrientation: 0
+    m_KeepOriginalOrientation: 1
     m_KeepOriginalPositionY: 1
     m_KeepOriginalPositionXZ: 0
     m_HeightFromFeet: 0
@@ -53705,8 +53705,22 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.38333333
+    functionName: BigBoot
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.4
     functionName: Right_Leg_Attack_On
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.46666667
+    functionName: Super_Attack_Sound
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -53721,6 +53735,13 @@ AnimationClip:
     messageOptions: 0
   - time: 0.8666667
     functionName: UnTagSuper_Leg
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.96666664
+    functionName: NormBoot
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

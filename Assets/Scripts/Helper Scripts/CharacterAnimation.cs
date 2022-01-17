@@ -35,4 +35,14 @@ public class CharacterAnimation : MonoBehaviour
     {
         animator.SetTrigger(AnimationTags.LIFT_TRIGGER);
     }
+
+    public void LiftOFF()
+    {
+        animator.SetBool("InLift",false);
+    }
+
+    public void LiftON()
+    {
+        animator.SetBool("InLift", true);
+    }
 }

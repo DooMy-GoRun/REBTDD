@@ -22,8 +22,11 @@ ModelImporter:
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
-    animationRetargetingWarnings: 
-    animationDoRetargetingWarnings: 0
+    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Scene':\n\tLeftLowerLeg
+      average position error 0.6 mm and maximum position error 1.0 mm at time 0:17
+      (51.6%) Frame 17\n\tRightLowerArm average position error 0.3 mm and maximum
+      position error 1.7 mm at time 0: 7 (19.4%) Frame 7\n"
+    animationDoRetargetingWarnings: 1
     importAnimatedCustomProperties: 0
     importConstraints: 0
     animationCompression: 3
@@ -73,8 +76,22 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.80999994
+        functionName: Knock_Sound
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0.9893617
         functionName: Enemy_StandUp
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.016806722
+        functionName: ShakeCameraOnFall
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
         floatParameter: 0

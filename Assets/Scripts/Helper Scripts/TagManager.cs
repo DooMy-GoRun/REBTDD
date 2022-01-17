@@ -16,6 +16,8 @@ public class AnimationTags
     public const string ATTACK_1_TRIGGER = "Attack1";
     public const string ATTACK_2_TRIGGER = "Attack2";
     public const string ATTACK_3_TRIGGER = "Attack3";
+    public const string ATTACK_1_COMBO_TRIGGER = "Attack1Combo";
+    public const string ATTACK_1_FINISH_TRIGGER = "Attack1Finish";
 
     public const string IDLE_ANIMATION = "Idle";
 
@@ -47,12 +49,15 @@ public class Tags
     public const string SUPER_LEG_TAG = "SuperLeg";
     public const string SUPER_HEAD_TAG = "SuperHead";
 
+    public const string FINISH1_HAND_TAG = "Finish1Hand";
     public const string FINISH_HAND_TAG = "FinishHand";
     public const string FINISH_LEG_TAG = "FinishLeg";
     public const string HEAD_TAG = "Head";
     public const string COMBO_HAND_TAG = "ComboHand";
 
     public const string THROW_HAND_TAG = "ThrowHand";
+
+    public const string ZERO_HAND_TAG = "ZeroHand";
 
     //public const string LEFT_HAND_TAG = "LeftHand";
     //public const string LEFT_LEG_TAG = "LeftLeg";

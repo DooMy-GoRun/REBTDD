@@ -3,6 +3,7 @@ using UnityEngine;
 //#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 //#endif
+using UnityEngine.SceneManagement;
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
  */
@@ -27,36 +28,37 @@ namespace StarterAssets
 	{
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
-		public float MoveSpeed = 6.5f;
+		[SerializeField] private float MoveSpeed = 6.5f;
 		[Tooltip("Sprint speed of the character in m/s")]
-		public float SprintSpeed = 10.335f;
+		[SerializeField] private float SprintSpeed = 10.335f;
 		[Tooltip("How fast the character turns to face movement direction")]
 		[Range(0.0f, 0.3f)]
-		public float RotationSmoothTime = 0.12f;
+		[SerializeField] private float RotationSmoothTime = 0.12f;
 		[Tooltip("Acceleration and deceleration")]
-		public float SpeedChangeRate = 10.0f;
+		[SerializeField] private float SpeedChangeRate = 10.0f;
+		[SerializeField] private bool facingRight;
 
 		[Space(10)]
 		[Tooltip("The height the player can jump")]
-		public float JumpHeight = 1.2f;
+		[SerializeField] private float JumpHeight = 1.2f;
 		[Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
-		public float Gravity = -15.0f;
+		[SerializeField] private float Gravity = -15.0f;
 
 		[Space(10)]
 		[Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
-		public float JumpTimeout = 0.50f;
+		[SerializeField] private float JumpTimeout = 0.50f;
 		[Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
-		public float FallTimeout = 0.15f;
+		[SerializeField] private float FallTimeout = 0.15f;
 
 		[Header("Player Grounded")]
 		[Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
-		public bool Grounded = true;
+		[SerializeField] private bool Grounded = true;
 		[Tooltip("Useful for rough ground")]
-		public float GroundedOffset = -1.99f;
+		[SerializeField] private float GroundedOffset = -1.99f;
 		[Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
-		public float GroundedRadius = 0.3f;
+		[SerializeField] private float GroundedRadius = 0.3f;
 		[Tooltip("What layers the character uses as ground")]
-		public LayerMask GroundLayers;
+		[SerializeField] private LayerMask GroundLayers;
 
 		//[Header("Cinemachine")]
 		//[Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
@@ -73,10 +75,16 @@ namespace StarterAssets
 		////cinemachine
 		//private float _cinemachineTargetYaw;
 		//private float _cinemachineTargetPitch;
-		[SerializeField]private Transform _bigHand;
-		[SerializeField]private Transform _forLift;
-
-		[SerializeField]private Behaviour[] components;
+		[Space(10)]
+		[Header("Player Objects")]
+		[SerializeField] private GameObject Horns;
+		[SerializeField] private GameObject BootR;
+		[SerializeField] private GameObject BootL;
+		[SerializeField] private GameObject HandR;
+		[SerializeField] private GameObject HandL;
+        [SerializeField] private Transform _forLift;
+		[SerializeField] private Behaviour gameover;
+		[SerializeField] private Behaviour[] components;
 
 		//to combos
 		private bool activateTimerToReset;
@@ -111,6 +119,7 @@ namespace StarterAssets
 		private int _animIDPunch3;
 		private int _animIDPunch4;
 		private int _animIDKick1;
+		private int _animIDHorns;
 		private int _animIDStrafe;
 		
 
@@ -119,14 +128,11 @@ namespace StarterAssets
 		private StarterAssetsInputs _input;
 		private GameObject _mainCamera;
 
-		private const float _threshold = 0.01f;
+		//private const float _threshold = 0.01f;
 		
-
 		private bool _hasAnimator;
 
-		public bool facingRight;
-
-		bool checkThrow = false;
+		private bool checkThrow = false;
 
 		private void Awake()
 		{
@@ -135,7 +141,7 @@ namespace StarterAssets
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
-
+			
             _animator = GetComponentInChildren<Animator>();
 		}
 
@@ -189,6 +195,7 @@ namespace StarterAssets
 			_animIDPunch3 = Animator.StringToHash("Punch3");
 			_animIDPunch4 = Animator.StringToHash("SuperPunch");
 			_animIDKick1 = Animator.StringToHash("Kick1");
+			_animIDHorns = Animator.StringToHash("Horns");
             _animIDStrafe = Animator.StringToHash("Strafe");
         }
 		
@@ -232,16 +239,15 @@ namespace StarterAssets
 			Ray ray = new Ray(transform.position, transform.forward);
 			Debug.DrawRay(transform.position, transform.forward * 3f, Color.yellow);
 			RaycastHit hit;
-			
+
 			//  Layers:
 			//        7 - Enemy,
 			//        8 - DownLayer,
 			//        9 - Death,
 			//        10 - LayerToSuper
 
-			if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E) || _input.attack) && !_input.sprint)
+			if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E) || (Input.GetKeyDown(KeyCode.Joystick1Button1) || Input.GetKeyDown(KeyCode.Joystick1Button0)) || _input.attack) && !_input.sprint && gameObject.layer != LayerMask.NameToLayer("DownLayer"))
 			{
-				gameObject.layer = LayerMask.NameToLayer("Player");
 				current_Combo_State++;
 				activateTimerToReset = true;
 				current_Combo_Timer = default_Combo_Timer;
@@ -250,44 +256,7 @@ namespace StarterAssets
 				{
 					if (Physics.Raycast(ray, out hit))
 					{
-						//var chuchelo = gameObject.GetComponentInParent<EnemyController>();
-						if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E) || _input.attack) && hit.collider.transform.parent != null && checkThrow)
-						{
-							_input.attack = false;
-							_animator.SetTrigger("Throw");
-							_animator.SetBool("InLift", false);
-                            
-                            //chuchelo.transform.parent = null;
-                            //gameObject.transform.IsChildOf(hit.collider.transform);
-                            checkThrow = false;
-							
-						}
-						else if (hit.distance < 0.6 && !checkThrow && hit.collider.gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
-						{
-                            if ((hit.collider.gameObject.layer == LayerMask.NameToLayer("DownLayer") || hit.collider.gameObject.CompareTag("Stun")) && hit.collider.gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
-							{
-								_animator.SetTrigger("Lift");
-								hit.collider.transform.position = _forLift.transform.position;
-								//hit.collider.transform.rotation = _forLift.transform.rotation;
-								_forLift.transform.position -= new Vector3(-0.6f, 0, 0);
-                                hit.collider.transform.SetParent(_forLift.transform);
-								checkThrow = true;
-								_animator.SetBool("InLift", true);
-
-								////need set to childs for toads
-								//if (gameObject.transform.childCount > 6)
-								//	_animator.SetBool("InLift", false);
-							}
-							else if(hit.collider.gameObject.layer != LayerMask.NameToLayer("Default"))
-                            {
-								_input.attack = false;
-								_animator.SetTrigger("Lift");
-								_animator.SetBool("InLift", false);
-								checkThrow = false;
-							}
-
-						}
-						else if (!Physics.Raycast(ray, 3f, 1 << 8) && !checkThrow)
+						if (!Physics.Raycast(ray, 1f, 1 << 8) && !checkThrow)
 						{
 							_animator.SetTrigger(_animIDPunch1);
 
@@ -295,11 +264,49 @@ namespace StarterAssets
 							if (_input.attack)
 							{
 								_input.attack = Mouse.current.leftButton.wasReleasedThisFrame;
-								
+
 								//_input.attack = Mouse.current.leftButton.wasPressedThisFrame;
 							}
 						}
 
+
+						if (Grounded)
+						{
+							if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Joystick1Button1) || Input.GetKeyDown(KeyCode.Joystick1Button0) || _input.attack) && hit.collider.transform.parent != null && checkThrow)
+							{
+								_input.attack = false;
+								_animator.SetTrigger("Throw");
+
+								_animator.SetBool("InLift", false);
+								checkThrow = false;
+
+							}
+							else if (hit.distance < 0.6 && !checkThrow && hit.collider.gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
+							{
+								if ((hit.collider.gameObject.layer == LayerMask.NameToLayer("DownLayer") || hit.collider.gameObject.CompareTag("Stun")) && hit.collider.gameObject.layer != LayerMask.NameToLayer("Ignore Raycast"))
+								{
+									_animator.SetTrigger("Lift");
+									hit.collider.transform.position = _forLift.transform.position;
+									hit.collider.transform.rotation = _forLift.transform.rotation;
+									hit.collider.transform.SetParent(_forLift.transform);
+
+									checkThrow = true;
+									_animator.SetBool("InLift", true);
+
+									if (hit.collider.transform.parent == null && !hit.collider.gameObject.CompareTag("Stun"))
+										_animator.SetBool("InLift", false);
+
+								}
+								else if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Default"))
+								{
+									_input.attack = false;
+									_animator.SetTrigger("Lift");
+									_animator.SetBool("InLift", false);
+									checkThrow = false;
+								}
+
+							}
+						}
 					}
                 }
 
@@ -310,7 +317,7 @@ namespace StarterAssets
 					{
 						if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Ignore Raycast") && hit.collider.gameObject.layer != LayerMask.NameToLayer("DownLayer"))
 						{
-							if (hit.distance < 0.7 && hit.collider.gameObject.layer == LayerMask.NameToLayer("LayerToSuper") && (hit.collider.CompareTag("Stun") || hit.collider.CompareTag("Enemy")))
+							if (hit.distance < 1 && hit.collider.gameObject.layer == LayerMask.NameToLayer("LayerToSuper") && (hit.collider.CompareTag("Stun") || hit.collider.CompareTag("Enemy")))
 							{
 								
 								_animator.SetTrigger(_animIDPunch4);
@@ -336,7 +343,7 @@ namespace StarterAssets
 					{
 						if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Ignore Raycast") && hit.collider.gameObject.layer != LayerMask.NameToLayer("DownLayer"))
 						{
-							if (hit.distance < 0.8 && hit.collider.gameObject.layer == LayerMask.NameToLayer("LayerToSuper") && (hit.collider.CompareTag("Stun") || hit.collider.CompareTag("Enemy")))
+							if (hit.distance < 1 && hit.collider.gameObject.layer == LayerMask.NameToLayer("LayerToSuper") && (hit.collider.CompareTag("Stun") || hit.collider.CompareTag("Enemy")))
 							{
 								
 								_animator.SetTrigger(_animIDPunch4);
@@ -354,25 +361,35 @@ namespace StarterAssets
 						}
 					}
 				}
-				//_animator.SetBool(_animIDAttack, true);
 			}
 
+			//Attack with Dash
 			if (_input.attack && Grounded && !_input.jump && _input.sprint)
 			{
-				gameObject.layer = LayerMask.NameToLayer("Player");
 
 				if (Physics.Raycast(ray, 5f, 1 << 8))
 				{
 					_animator.SetTrigger(_animIDKick1);
 				}
+
+				if (Physics.Raycast(ray, 15f, 1 << 10))
+				{
+					_animator.SetTrigger(_animIDHorns);
+				}
 				
-				_animator.SetBool(_animIDAttack, true);
+					_animator.SetBool(_animIDAttack, true);
 
 				if(_input.attack == Mouse.current.leftButton.isPressed)
 					_input.attack = Mouse.current.leftButton.wasPressedThisFrame;
 
 				if(_input.attack == Keyboard.current.eKey.isPressed)
 					_input.attack = Keyboard.current.eKey.wasPressedThisFrame;
+
+				if (_input.attack == Gamepad.current.buttonSouth.isPressed)
+					_input.attack = Gamepad.current.buttonSouth.wasPressedThisFrame;
+
+				if (_input.attack == Gamepad.current.buttonWest.isPressed)
+					_input.attack = Gamepad.current.buttonWest.wasPressedThisFrame;
 			}
 			
 			if (!_input.attack)
@@ -516,9 +533,9 @@ namespace StarterAssets
 					{
 						_animator.SetBool(_animIDJump, true);
 
-						//set for don't use dash in air
-						_input.sprint = false;
-					}
+                        //set for don't use dash in air
+                        _input.sprint = false;
+                    }
 				}
 
 				// jump timeout
@@ -544,14 +561,14 @@ namespace StarterAssets
 					{
 						_animator.SetBool(_animIDFreeFall, true);
 
-						//set for don't use dash in air
-						_input.sprint = false;
-					}
+                        //set for don't use dash in air
+                        _input.sprint = false;
+                    }
 				}
 
 				// if we are not grounded, do not jump
 				_input.jump = false;
-				_input.sprint = false;
+				//_input.sprint = false;
 			}
 
 			// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
@@ -619,22 +636,81 @@ namespace StarterAssets
 
 		private void BigHand()
         {
-			//_bigHand.transform.localScale += new Vector3(3, 3, 3);
-        }
+			if(facingRight)
+				HandR.SetActive(true);
+
+			if(!facingRight)
+				HandL.SetActive(true);
+		}
 
 		private void NormalHand()
         {
-			//_bigHand.transform.localScale -= new Vector3(3, 3, 3);
+			if (facingRight)
+				HandR.SetActive(false);
+
+			if (!facingRight)
+				HandL.SetActive(false);
 		}
 
-		private void KnockON()
-        {
-			gameObject.layer = LayerMask.NameToLayer("DownLayer");
+		private void HornOn()
+		{
+				Horns.SetActive(true);
 		}
+
+		private void HornOff()
+		{
+				Horns.SetActive(false);
+		}
+
+		private void BigBoot()
+        {
+			if (facingRight)
+				BootR.SetActive(true);
+
+			if(!facingRight)
+				BootL.SetActive(true);
+		}
+
+		private void NormBoot()
+        {
+			if (facingRight)
+				BootR.SetActive(false);
+
+			if (!facingRight)
+				BootL.SetActive(false);
+		}
+
+		private void AdditionalObjectOff()
+        {
+			BootR.SetActive(false);
+			BootL.SetActive(false);
+			Horns.SetActive(false);
+			HandL.SetActive(false);
+			HandR.SetActive(false);
+        }
+
 
 		private void KnockOFF()
         {
 			gameObject.layer = LayerMask.NameToLayer("Player");
 		}
+
+		private void DeathPlayer()
+        {
+			gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+
+			gameover.enabled = false;
+
+			Invoke("Loaded", 7f);
+			
+
+			if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E))
+				return;
+		}
+
+		void Loaded()
+        {
+			SceneManager.LoadScene(1);
+        }
 	}
 }

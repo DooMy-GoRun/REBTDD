@@ -60,14 +60,14 @@ ModelImporter:
       curves: []
       events:
       - time: 0
-        functionName: AgentResume
+        functionName: TagStun
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0
-        functionName: TagStun
+      - time: 0.0031846913
+        functionName: AgentResume
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 5128fc483d4b1af4eb48de929fa869e5, type: 3}
         floatParameter: 0
